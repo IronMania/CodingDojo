@@ -9,7 +9,7 @@ namespace CodingDojo
 
         public void AddRoll(int i)
         {
-            TotalPoints = i;
+            TotalPoints += i;
         }
     }
 
@@ -31,6 +31,14 @@ namespace CodingDojo
             Assert.That(game.TotalPoints, Is.EqualTo(5));
         }
 
+        [Test]
+        public void Game_with_Two_Roll_Shows_Points()
+        {
+            var game = new Game();
+            game.AddRoll(5);
+            game.AddRoll(3);
+            Assert.That(game.TotalPoints, Is.EqualTo(8));
+        }
 
     }
 }
