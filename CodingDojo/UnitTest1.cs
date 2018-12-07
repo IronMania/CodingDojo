@@ -7,60 +7,45 @@ namespace CodingDojo
     public class Game
     {
         private Frame _lastFrame;
-        public bool IsOver {get;}
-        public int TotalPoints { get; private set; }
-        public List<Frame> Frames {get;}
 
         public Game()
         {
             Frames = new List<Frame>();
-            for (int i = 0; i < 10; i++)
-            {
-                Frames.Add(new Frame(0));
-            }
+            for (var i = 0; i < 10; i++) Frames.Add(new Frame());
         }
+
+        public bool IsOver { get; }
+        public int TotalPoints { get; private set; }
+        public List<Frame> Frames { get; }
+
         public void AddRoll(int i)
         {
-            Frame frame = Frames.First(frame1 => !frame1.IsFinished);
+            var frame = Frames.First(frame1 => !frame1.IsFinished);
 
             frame.AddRoll(i);
-            if (_lastFrame?.IsStrike == true)
-            {
-                _lastFrame.AddRoll(i);
-            }
+            if (_lastFrame?.IsStrike == true) _lastFrame.AddRoll(i);
 
             TotalPoints += i;
-            if (frame.IsStrike)
-            {
-                _lastFrame = frame;
-            }
-            
+            if (frame.IsStrike) _lastFrame = frame;
         }
     }
 
-    public class Frame {
-        public int TotalPoints {get; private set;}
-        private int _rollCount = 0;
-        public bool IsStrike {get {
-            return TotalPoints >= 10;
-        }}
+    public class Frame
+    {
+        private int _rollCount;
 
-        public bool IsFinished
+        public int TotalPoints { get; private set; }
+
+        public bool IsStrike => TotalPoints >= 10;
+
+        public bool IsFinished => _rollCount >= 2 || IsStrike;
+
+        public void AddRoll(int i)
         {
-            get { return _rollCount >= 2 || IsStrike; }
-        }
-
-        public Frame(int i)
-        {
-            TotalPoints = i;
-        }
-
-        public void AddRoll(int i) {
             TotalPoints += i;
 
             _rollCount++;
         }
- 
     }
 
 
@@ -142,6 +127,5 @@ namespace CodingDojo
             game.AddRoll(2);
             Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(14));
         }
-
     }
 }
