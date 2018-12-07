@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace CodingDojo
@@ -6,9 +7,30 @@ namespace CodingDojo
     {
         public bool IsOver {get;}
         public int TotalPoints { get; private set; }
+        public List<Frame> Frames {get;} = new List<Frame>();
 
         public void AddRoll(int i)
         {
+            TotalPoints += i;
+        }
+
+        public void AddFrame(int i) {
+            Frames.Add(new Frame(i));
+        }
+    }
+
+    public class Frame {
+        public int TotalPoints {get; private set;}
+        public bool IsStrike {get {
+            return TotalPoints == 10;
+        }}
+
+        public Frame(int i)
+        {
+            TotalPoints = i;
+        }
+
+        public void AddRoll(int i) {
             TotalPoints += i;
         }
     }
@@ -40,5 +62,12 @@ namespace CodingDojo
             Assert.That(game.TotalPoints, Is.EqualTo(8));
         }
 
+        [Test]
+        public void Game_One_Roll_Is_Strike()
+        {
+            var game = new Game();
+            game.AddFrame(10);
+            Assert.That(game.Frames[0].IsStrike, Is.True);
+        }
     }
 }
