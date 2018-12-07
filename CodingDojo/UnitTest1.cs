@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace CodingDojo
@@ -11,7 +12,18 @@ namespace CodingDojo
 
         public void AddRoll(int i)
         {
+            Frame frame = Frames.LastOrDefault();
+            if (frame == null)
+            {
+                frame = new Frame(0);
+                Frames.Add(frame);
+            }
+            
+
+            frame.AddRoll(i);
+
             TotalPoints += i;
+
         }
 
         public void AddFrame(int i) {
@@ -66,7 +78,7 @@ namespace CodingDojo
         public void Game_One_Roll_Is_Strike()
         {
             var game = new Game();
-            game.AddFrame(10);
+            game.AddRoll(10);
             Assert.That(game.Frames[0].IsStrike, Is.True);
         }
     }
