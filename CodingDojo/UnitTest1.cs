@@ -42,7 +42,7 @@ namespace CodingDojo
 
         public bool IsFinished
         {
-            get { return _rollCount == 2; }
+            get { return _rollCount == 2 || IsStrike; }
         }
 
         public Frame(int i)
@@ -52,6 +52,7 @@ namespace CodingDojo
 
         public void AddRoll(int i) {
             TotalPoints += i;
+
             _rollCount++;
         }
  
@@ -98,6 +99,14 @@ namespace CodingDojo
             var game = new Game();
             game.AddRoll(5);
             game.AddRoll(3);
+            Assert.That(game.Frames[0].IsFinished, Is.True);
+        }
+
+        [Test]
+        public void FrameIsFinishedWithStrike()
+        {
+            var game = new Game();
+            game.AddRoll(10);
             Assert.That(game.Frames[0].IsFinished, Is.True);
         }
     }
