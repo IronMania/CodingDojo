@@ -20,7 +20,7 @@ namespace CodingDojo
         }
         public void AddRoll(int i)
         {
-            Frame frame = Frames.First();
+            Frame frame = Frames.First(frame1 => !frame1.IsFinished);
 
             frame.AddRoll(i);
 
@@ -108,6 +108,15 @@ namespace CodingDojo
             var game = new Game();
             game.AddRoll(10);
             Assert.That(game.Frames[0].IsFinished, Is.True);
+        }
+
+        [Test]
+        public void AfterStrikeNextFrameIsUsed()
+        {
+            var game = new Game();
+            game.AddRoll(10);
+            game.AddRoll(2);
+            Assert.That(game.Frames[1].TotalPoints, Is.EqualTo(2));
         }
     }
 }
