@@ -8,17 +8,19 @@ namespace CodingDojo
     {
         public bool IsOver {get;}
         public int TotalPoints { get; private set; }
-        public List<Frame> Frames {get;} = new List<Frame>();
+        public List<Frame> Frames {get;}
 
+        public Game()
+        {
+            Frames = new List<Frame>();
+            for (int i = 0; i < 10; i++)
+            {
+                Frames.Add(new Frame(0));
+            }
+        }
         public void AddRoll(int i)
         {
-            Frame frame = Frames.LastOrDefault();
-            if (frame == null)
-            {
-                frame = new Frame(0);
-                Frames.Add(frame);
-            }
-            
+            Frame frame = Frames.First();
 
             frame.AddRoll(i);
 
@@ -33,9 +35,15 @@ namespace CodingDojo
 
     public class Frame {
         public int TotalPoints {get; private set;}
+        private int _rollCount = 0;
         public bool IsStrike {get {
             return TotalPoints == 10;
         }}
+
+        public bool IsFinished
+        {
+            get { return _rollCount == 2; }
+        }
 
         public Frame(int i)
         {
@@ -44,7 +52,9 @@ namespace CodingDojo
 
         public void AddRoll(int i) {
             TotalPoints += i;
+            _rollCount++;
         }
+ 
     }
 
 
@@ -80,6 +90,15 @@ namespace CodingDojo
             var game = new Game();
             game.AddRoll(10);
             Assert.That(game.Frames[0].IsStrike, Is.True);
+        }
+
+        [Test]
+        public void FrameIsFinished()
+        {
+            var game = new Game();
+            game.AddRoll(5);
+            game.AddRoll(3);
+            Assert.That(game.Frames[0].IsFinished, Is.True);
         }
     }
 }
