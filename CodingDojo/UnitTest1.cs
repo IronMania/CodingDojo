@@ -2,20 +2,19 @@ using NUnit.Framework;
 
 namespace CodingDojo
 {
-    public class Implementation
+    public class Game
     {
-
+        public bool IsOver {get;}
     }
 
 
     public class Tests
     {
-        
         [Test]
-        public void Constructor_Works()
+        public void Game_should_not_be_over()
         {
-            new Implementation();
-            Assert.Pass();
+            var game = new Game();
+            Assert.That(game.IsOver, Is.False);
         }
     }
 }
