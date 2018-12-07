@@ -30,7 +30,11 @@ namespace CodingDojo
             }
 
             TotalPoints += i;
-            _lastFrame = frame;
+            if (frame.IsStrike)
+            {
+                _lastFrame = frame;
+            }
+            
         }
     }
 
@@ -38,12 +42,12 @@ namespace CodingDojo
         public int TotalPoints {get; private set;}
         private int _rollCount = 0;
         public bool IsStrike {get {
-            return TotalPoints == 10;
+            return TotalPoints >= 10;
         }}
 
         public bool IsFinished
         {
-            get { return _rollCount == 2 || IsStrike; }
+            get { return _rollCount >= 2 || IsStrike; }
         }
 
         public Frame(int i)
@@ -127,6 +131,16 @@ namespace CodingDojo
             game.AddRoll(10);
             game.AddRoll(2);
             Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(12));
+        }
+
+        [Test]
+        public void TwoRollsAddTopreviousStrike()
+        {
+            var game = new Game();
+            game.AddRoll(10);
+            game.AddRoll(2);
+            game.AddRoll(2);
+            Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(14));
         }
 
     }
