@@ -6,6 +6,7 @@ namespace CodingDojo
 {
     public class Game
     {
+        private Frame _lastFrame;
         public bool IsOver {get;}
         public int TotalPoints { get; private set; }
         public List<Frame> Frames {get;}
@@ -23,13 +24,13 @@ namespace CodingDojo
             Frame frame = Frames.First(frame1 => !frame1.IsFinished);
 
             frame.AddRoll(i);
+            if (_lastFrame?.IsStrike == true)
+            {
+                _lastFrame.AddRoll(i);
+            }
 
             TotalPoints += i;
-
-        }
-
-        public void AddFrame(int i) {
-            Frames.Add(new Frame(i));
+            _lastFrame = frame;
         }
     }
 
@@ -118,5 +119,15 @@ namespace CodingDojo
             game.AddRoll(2);
             Assert.That(game.Frames[1].TotalPoints, Is.EqualTo(2));
         }
+
+        [Test]
+        public void AfterStrikeInFirstFrameThePointsInSecondFrameForFirstRollAreDoubled()
+        {
+            var game = new Game();
+            game.AddRoll(10);
+            game.AddRoll(2);
+            Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(12));
+        }
+
     }
 }
