@@ -30,10 +30,16 @@ namespace CodingDojo
         {
             var frame = Frames.OfType<IUnfinishedFrame>().First();
 
-            foreach (var strike in Frames.OfType<Strike>()) strike.AddRoll(i);
-            foreach (var strike in Frames.OfType<Spare>()) strike.AddRoll(i);
-            var newFrame = frame.AddRoll(i);
+            foreach (var strike in Frames.OfType<Strike>()) UpdateFrame(strike, i);
+            foreach (var strike in Frames.OfType<Spare>()) UpdateFrame(strike,i);
+            UpdateFrame(frame, i);
+        }
+
+        private void UpdateFrame(IFrame frame, int roll)
+        {
+            var newFrame = frame.AddRoll(roll);
             _frames.Replace(frame, newFrame);
         }
+
     }
 }

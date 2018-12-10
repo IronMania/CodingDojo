@@ -5,12 +5,17 @@ namespace CodingDojo.Frames
 {
     public class Spare : IFinishedFrame
     {
-        private readonly List<int> _additionalPoints = new List<int>(1);
+        private readonly List<int> _additionalPoints;
         private readonly int _firstRoll;
 
-        public Spare(int firstRoll)
+        public Spare(int firstRoll) : this(firstRoll, new List<int>())
+        {
+        }
+
+        private Spare(int firstRoll, List<int> additionalPoints)
         {
             _firstRoll = firstRoll;
+            _additionalPoints = additionalPoints;
         }
 
         public IEnumerable<int> Rolls => new[] {_firstRoll, 10 - _firstRoll};
@@ -18,7 +23,7 @@ namespace CodingDojo.Frames
 
         public IFrame AddRoll(int i)
         {
-            if (_additionalPoints.Count < 1) _additionalPoints.Add(i);
+            if (_additionalPoints.Count < 1) return new Spare(_firstRoll, _additionalPoints.Append(i).ToList());
             return this;
         }
     }

@@ -16,7 +16,7 @@ namespace CodingDojo.Frames
 
         public IFrame AddRoll(int i)
         {
-            throw new InvalidOperationException();
+            return this;
         }
     }
 }

@@ -6,11 +6,16 @@ namespace CodingDojo.Frames
 {
     public class Strike : IFinishedFrame
     {
-        private readonly List<int> _additionalPoints = new List<int>(2);
+        private readonly List<int> _additionalPoints ;
         public Strike()
         {
+            _additionalPoints = new List<int>();
         }
 
+        private Strike(List<int> additionalPoints)
+        {
+            _additionalPoints = additionalPoints.ToList();
+        }
         public IEnumerable<int> Rolls => new int[]{10};
         public int TotalPoints => Rolls.Sum() + _additionalPoints.Sum();
 
@@ -18,7 +23,7 @@ namespace CodingDojo.Frames
         {
             if (_additionalPoints.Count < 2)
             {
-                _additionalPoints.Add(i);
+                return new Strike(_additionalPoints.Append(i).ToList());
             }
             return this;
         }
