@@ -8,11 +8,4 @@ namespace CodingDojo
         int TotalPoints { get; }
         IFrame AddRoll(int number);
     }
-
-    public interface IFinishedFrame : IFrame
-    {
-    }
-    public interface IUnfinishedFrame : IFrame
-    {
-    }
 }

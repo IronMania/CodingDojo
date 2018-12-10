@@ -6,31 +6,34 @@ namespace CodingDojo
 {
     public class Game
     {
-        public Game()
+        private readonly List<IFrame> _frames;
+
+        internal Game(List<IFrame> frames)
         {
-            Frames = new List<IFrame>();
-            for (var i = 0; i < 9; i++) Frames.Add(new TwoThrowFrame());
-            Frames.Add(new ThreeThrowFrame());
+            _frames = frames;
         }
 
-        public bool IsOver { get; }
+        public bool IsOver => Frames.Last() is IFinishedFrame;
+
         public int TotalPoints => Frames.Sum(frame => frame.TotalPoints);
-        public List<IFrame> Frames { get; }
+        public IReadOnlyList<IFrame> Frames => _frames;
+
+        public static Game CreateStandardGame()
+        {
+            var frames = new List<IFrame>();
+            for (var i = 0; i < 9; i++) frames.Add(new TwoThrowFrame());
+            frames.Add(new ThreeThrowFrame());
+            return new Game(frames);
+        }
 
         public void AddRoll(int i)
         {
             var frame = Frames.OfType<IUnfinishedFrame>().First();
 
-            foreach (var strike in Frames.OfType<Strike>())
-            {
-                strike.AddRoll(i);
-            }
-            foreach (var strike in Frames.OfType<Spare>())
-            {
-                strike.AddRoll(i);
-            }
+            foreach (var strike in Frames.OfType<Strike>()) strike.AddRoll(i);
+            foreach (var strike in Frames.OfType<Spare>()) strike.AddRoll(i);
             var newFrame = frame.AddRoll(i);
-            Frames.Replace(frame, newFrame);
+            _frames.Replace(frame, newFrame);
         }
     }
 }
