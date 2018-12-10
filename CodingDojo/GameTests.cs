@@ -1,55 +1,9 @@
-using System.Collections.Generic;
-using System.Linq;
+using CodingDojo.Frames;
 using NUnit.Framework;
 
 namespace CodingDojo
 {
-    public class Game
-    {
-        private Frame _lastFrame;
-
-        public Game()
-        {
-            Frames = new List<Frame>();
-            for (var i = 0; i < 10; i++) Frames.Add(new Frame());
-        }
-
-        public bool IsOver { get; }
-        public int TotalPoints { get; private set; }
-        public List<Frame> Frames { get; }
-
-        public void AddRoll(int i)
-        {
-            var frame = Frames.First(frame1 => !frame1.IsFinished);
-
-            frame.AddRoll(i);
-            if (_lastFrame?.IsStrike == true) _lastFrame.AddRoll(i);
-
-            TotalPoints += i;
-            if (frame.IsStrike) _lastFrame = frame;
-        }
-    }
-
-    public class Frame
-    {
-        private int _rollCount;
-
-        public int TotalPoints { get; private set; }
-
-        public bool IsStrike => TotalPoints >= 10;
-
-        public bool IsFinished => _rollCount >= 2 || IsStrike;
-
-        public void AddRoll(int i)
-        {
-            TotalPoints += i;
-
-            _rollCount++;
-        }
-    }
-
-
-    public class Tests
+    public class GameTests
     {
         [Test]
         public void Game_should_not_be_over()
@@ -80,16 +34,7 @@ namespace CodingDojo
         {
             var game = new Game();
             game.AddRoll(10);
-            Assert.That(game.Frames[0].IsStrike, Is.True);
-        }
-
-        [Test]
-        public void FrameIsFinished()
-        {
-            var game = new Game();
-            game.AddRoll(5);
-            game.AddRoll(3);
-            Assert.That(game.Frames[0].IsFinished, Is.True);
+            Assert.That(game.Frames[0], Is.TypeOf<Strike>());
         }
 
         [Test]
@@ -97,7 +42,7 @@ namespace CodingDojo
         {
             var game = new Game();
             game.AddRoll(10);
-            Assert.That(game.Frames[0].IsFinished, Is.True);
+            Assert.That(game.Frames[0], Is.TypeOf<Strike>());
         }
 
         [Test]
@@ -126,6 +71,39 @@ namespace CodingDojo
             game.AddRoll(2);
             game.AddRoll(2);
             Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(14));
+        }
+
+        [Test]
+        public void TwoRollsAddTopreviousStrikeOnlyOnce()
+        {
+            var game = new Game();
+            game.AddRoll(10);
+            game.AddRoll(2);
+            game.AddRoll(2);
+            game.AddRoll(2);
+            Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(14));
+        }
+
+        [Test]
+        public void SpareAddsOneTimePoints()
+        {
+            var game = new Game();
+            game.AddRoll(6);
+            game.AddRoll(4);
+            game.AddRoll(2);
+            game.AddRoll(2);
+            Assert.That(game.Frames[0].TotalPoints, Is.EqualTo(12));
+        }
+
+        [Test]
+        public void ThrowingOnlyStrikesGives300Points()
+        {
+            var game = new Game();
+            for (int i = 0; i < 12; i++)
+            {
+                game.AddRoll(10);
+            }
+            Assert.That(game.TotalPoints, Is.EqualTo(300));
         }
     }
 }
