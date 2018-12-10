@@ -5,8 +5,8 @@ namespace CodingDojo.Frames
 {
     public class TwoThrowFrame : IUnfinishedFrame
     {
-        public IEnumerable<int> Rolls => new int[2];
-        public int TotalPoints => Rolls.Sum();
+        public IEnumerable<int> PinsRolled => new int[2];
+        public int Score => PinsRolled.Sum();
 
 
         public IFrame AddRoll(int i)

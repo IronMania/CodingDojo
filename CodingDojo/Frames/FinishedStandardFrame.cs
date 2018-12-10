@@ -8,11 +8,11 @@ namespace CodingDojo.Frames
     {
         public FinishedStandardFrame(IEnumerable<int> rolls)
         {
-            Rolls = rolls;
+            PinsRolled = rolls;
         }
 
-        public IEnumerable<int> Rolls { get; }
-        public int TotalPoints => Rolls.Sum();
+        public IEnumerable<int> PinsRolled { get; }
+        public int Score => PinsRolled.Sum();
 
         public IFrame AddRoll(int i)
         {

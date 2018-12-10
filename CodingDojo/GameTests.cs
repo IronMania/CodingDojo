@@ -23,7 +23,7 @@ namespace CodingDojo
         public void Game_with_One_Roll_Shows_Points()
         {
             _game.AddRoll(5);
-            Assert.That(_game.TotalPoints, Is.EqualTo(5));
+            Assert.That(_game.TotalScore, Is.EqualTo(5));
         }
 
         [Test]
@@ -31,7 +31,7 @@ namespace CodingDojo
         {
             _game.AddRoll(5);
             _game.AddRoll(3);
-            Assert.That(_game.TotalPoints, Is.EqualTo(8));
+            Assert.That(_game.TotalScore, Is.EqualTo(8));
         }
 
         [Test]
@@ -53,7 +53,7 @@ namespace CodingDojo
         {
             _game.AddRoll(10);
             _game.AddRoll(2);
-            Assert.That(_game.Frames[1].TotalPoints, Is.EqualTo(2));
+            Assert.That(_game.Frames[1].Score, Is.EqualTo(2));
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace CodingDojo
         {
             _game.AddRoll(10);
             _game.AddRoll(2);
-            Assert.That(_game.Frames[0].TotalPoints, Is.EqualTo(12));
+            Assert.That(_game.Frames[0].Score, Is.EqualTo(12));
         }
 
         [Test]
@@ -70,7 +70,7 @@ namespace CodingDojo
             _game.AddRoll(10);
             _game.AddRoll(2);
             _game.AddRoll(2);
-            Assert.That(_game.Frames[0].TotalPoints, Is.EqualTo(14));
+            Assert.That(_game.Frames[0].Score, Is.EqualTo(14));
         }
 
         [Test]
@@ -80,7 +80,7 @@ namespace CodingDojo
             _game.AddRoll(2);
             _game.AddRoll(2);
             _game.AddRoll(2);
-            Assert.That(_game.Frames[0].TotalPoints, Is.EqualTo(14));
+            Assert.That(_game.Frames[0].Score, Is.EqualTo(14));
         }
 
         [Test]
@@ -90,14 +90,14 @@ namespace CodingDojo
             _game.AddRoll(4);
             _game.AddRoll(2);
             _game.AddRoll(2);
-            Assert.That(_game.Frames[0].TotalPoints, Is.EqualTo(12));
+            Assert.That(_game.Frames[0].Score, Is.EqualTo(12));
         }
 
         [Test]
         public void ThrowingOnlyStrikesGives300Points()
         {
             for (var i = 0; i < 12; i++) _game.AddRoll(10);
-            Assert.That(_game.TotalPoints, Is.EqualTo(300));
+            Assert.That(_game.TotalScore, Is.EqualTo(300));
             Assert.That(_game.IsOver, Is.True);
         }
     }

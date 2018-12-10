@@ -12,9 +12,9 @@ namespace CodingDojo.Frames
             _roll = roll;
         }
 
-        public IEnumerable<int> Rolls => new[] {_roll};
+        public IEnumerable<int> PinsRolled => new[] {_roll};
 
-        public int TotalPoints => Rolls.Sum();
+        public int Score => PinsRolled.Sum();
 
         public IFrame AddRoll(int i)
         {

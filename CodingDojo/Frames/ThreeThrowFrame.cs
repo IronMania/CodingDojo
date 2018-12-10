@@ -17,14 +17,14 @@ namespace CodingDojo.Frames
         }
 
 
-        public IEnumerable<int> Rolls => _rolls;
+        public IEnumerable<int> PinsRolled => _rolls;
 
-        public int TotalPoints => Rolls.Sum();
+        public int Score => PinsRolled.Sum();
 
 
         public IFrame AddRoll(int i)
         {
-            var sumOfRolls = Rolls.Append(i);
+            var sumOfRolls = PinsRolled.Append(i);
             if (_rolls.Count == 2)
             {
                 return new FinishedStandardFrame(sumOfRolls);

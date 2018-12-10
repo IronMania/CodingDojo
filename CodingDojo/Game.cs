@@ -15,7 +15,7 @@ namespace CodingDojo
 
         public bool IsOver => Frames.Last() is IFinishedFrame;
 
-        public int TotalPoints => Frames.Sum(frame => frame.TotalPoints);
+        public int TotalScore => Frames.Sum(frame => frame.Score);
         public IReadOnlyList<IFrame> Frames => _frames;
 
         public static Game CreateStandardGame()
@@ -26,13 +26,13 @@ namespace CodingDojo
             return new Game(frames);
         }
 
-        public void AddRoll(int i)
+        public void AddRoll(int pins)
         {
             var frame = Frames.OfType<IUnfinishedFrame>().First();
 
-            foreach (var strike in Frames.OfType<Strike>()) UpdateFrame(strike, i);
-            foreach (var strike in Frames.OfType<Spare>()) UpdateFrame(strike,i);
-            UpdateFrame(frame, i);
+            foreach (var strike in Frames.OfType<Strike>()) UpdateFrame(strike, pins);
+            foreach (var strike in Frames.OfType<Spare>()) UpdateFrame(strike,pins);
+            UpdateFrame(frame, pins);
         }
 
         private void UpdateFrame(IFrame frame, int roll)

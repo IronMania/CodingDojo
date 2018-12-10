@@ -16,8 +16,8 @@ namespace CodingDojo.Frames
         {
             _additionalPoints = additionalPoints.ToList();
         }
-        public IEnumerable<int> Rolls => new int[]{10};
-        public int TotalPoints => Rolls.Sum() + _additionalPoints.Sum();
+        public IEnumerable<int> PinsRolled => new int[]{10};
+        public int Score => PinsRolled.Sum() + _additionalPoints.Sum();
 
         public IFrame AddRoll(int i)
         {
