@@ -30,8 +30,7 @@ namespace CodingDojo
         {
             var frame = Frames.OfType<IUnfinishedFrame>().First();
 
-            foreach (var strike in Frames.OfType<Strike>()) UpdateFrame(strike, pins);
-            foreach (var strike in Frames.OfType<Spare>()) UpdateFrame(strike,pins);
+            foreach (var strike in Frames.OfType<IFinishedFrame>().ToList()) UpdateFrame(strike, pins);
             UpdateFrame(frame, pins);
         }
 
