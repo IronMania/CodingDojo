@@ -1,3 +1,4 @@
+using System.Linq;
 using CodingDojo.Frames;
 using NUnit.Framework;
 
@@ -99,6 +100,17 @@ namespace CodingDojo
             for (var i = 0; i < 12; i++) _game.AddRoll(10);
             Assert.That(_game.TotalScore, Is.EqualTo(300));
             Assert.That(_game.IsOver, Is.True);
+            Assert.That(_game.Frames.Last().PinsRolled.Count(), Is.EqualTo(3));
+        }
+
+        [Test]
+        public void LastFrameWithNone10FinishesGame()
+        {
+            for (var i = 0; i < 9; i++) _game.AddRoll(10);
+             _game.AddRoll(2);
+             _game.AddRoll(2);
+            Assert.That(_game.IsOver, Is.True);
+            Assert.That(_game.Frames.Last().PinsRolled.Count(), Is.EqualTo(2));
         }
     }
 }

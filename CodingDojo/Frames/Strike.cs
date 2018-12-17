@@ -25,6 +25,7 @@ namespace CodingDojo.Frames
             {
                 return new Strike(_additionalPoints.Append(i).ToList());
             }
+                
             return this;
         }
     }

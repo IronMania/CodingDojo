@@ -30,8 +30,11 @@ namespace CodingDojo
         {
             var frame = Frames.OfType<IUnfinishedFrame>().First();
 
-            foreach (var strike in Frames.OfType<IFinishedFrame>().ToList()) UpdateFrame(strike, pins);
-            UpdateFrame(frame, pins);
+            var frames = Frames.Reverse().SkipWhile(frame1 => frame!= frame1).Take(3);
+            foreach (var frame1 in frames)
+            {
+                UpdateFrame(frame1, pins);
+            }
         }
 
         private void UpdateFrame(IFrame frame, int roll)
